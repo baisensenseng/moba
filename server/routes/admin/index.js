@@ -3,8 +3,8 @@ module.exports = app =>{
   const router = express.Router()
   const Category = require('../../modules/category')
 
-  router.post('/categroies', async(req, res) => {
-   const model = await Category.create(rep.body)
+  router.post('/categories', async(req, res) => {
+   const model = await Category.create(req.body)
    res.send(model)
   })
 
