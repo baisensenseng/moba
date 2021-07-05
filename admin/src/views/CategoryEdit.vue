@@ -26,17 +26,17 @@
 <script>
 export default {
   props:{
-    id: {},
-    parents:[
-
-    ]
+    id: {}
   },
 
   data(){
     return{
       model:{
 
-      }
+      },
+      parents:[
+
+      ]
     }
   },
   methods: {
