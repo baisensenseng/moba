@@ -5,6 +5,7 @@ module.exports = app => {
   mongoose.connect( url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useCreateIndex: true,
   })
   .then(() => console.log("Connection Successful"))
   .catch(err => console.log(err));

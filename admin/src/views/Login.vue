@@ -9,6 +9,7 @@
           <el-input type="password" v-model="model.password"></el-input>
         </el-form-item>
         <el-form-item><el-button type="primary" native-type="submit">登陆</el-button></el-form-item>
+        <el-form-item><el-button type="primary" @click="register()">注册</el-button></el-form-item>
       </el-form>
     </el-card>
   </div>
@@ -40,6 +41,11 @@ export default {
         message: '登陆成功'
       })
     },
+
+    async register() {
+      const res = await this.$http.post('register', this.model)
+      console.log(res);
+    }
   },
 }
 </script>

@@ -1,15 +1,13 @@
-const AdminUser = require('../../models/AdminUser')
-
 module.exports = app =>{
   const express = require('express')
   const jwt = require('jsonwebtoken')
   const AdminUser = require('../../models/AdminUser')
+  const User = require('../../models/User')
   const assert = require('http-assert')
 
   const router = express.Router({
     mergeParams: true
   })
-  // const req.Model = require('../../modules/req.Model')
 
   // 新增
   router.post('/', async(req, res) => {
@@ -37,14 +35,21 @@ module.exports = app =>{
     if (req.Model.modelName === 'Category') {
       queryOptions.populate = 'parent'
     }
-    // const items = await req.Model.find().populate('parent').limit(10)
     const items = await req.Model.find().setOptions(queryOptions).limit(10)
     res.send(items)
   })
 
-  // 资源列表
+  // 注册
+  app.post('/admin/api/register', async (req, res) => {
+    const user = await AdminUser.create({
+      username: req.body.username,
+      password: req.body.password,
+    })
+    res.send(user);
+  });
+
+  // 切换页面调用token验证接口
   app.post('/admin/api/token', async (req, res) => {
-    // res.send('ok')
     const token = String(req.headers.authorization || '').split(' ').pop()
     assert(token, 401, '请提供jwttoken')
     const {id} = jwt.verify(token, req.app.get('secret'))
@@ -79,24 +84,15 @@ module.exports = app =>{
     const { username, password } = req.body
 
     // 1.根据用户名找用户
-    
+    const alluser = await AdminUser.find()
+    console.log(alluser);
     const user = await AdminUser.findOne({username}).select('+password')
     assert(user, 422, '用户不存在')
-    // if (!user) {
-    //   return res.status(422).send({
-    //     message: '用户不存在'
-    //   })
-    // }
 
     // 2.校验密码
     const isValid = require('bcrypt').compareSync(password, user.password)
     console.log(isValid);
     assert(isValid, 422, '用户密码错误不存在')
-    // if (!isValid) {
-    //   return res.status(422).send({
-    //     message: '密码错误'
-    //   })
-    // }
 
     // 3.返回token
     const token = jwt.sign({ id: user._id}, app.get('secret'))
@@ -111,4 +107,6 @@ module.exports = app =>{
     })
     await next()
   })
+
+  // AdminUser.db.dropCollection('register')
 }
