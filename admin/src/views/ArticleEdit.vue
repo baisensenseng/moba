@@ -93,11 +93,13 @@ export default {
     async fetch(){
       const res = await this.$http.get(`rest/articles/${this.id}`)
       this.model = res.data;
+      console.log(this.model);
     },
 
      async fetchCategories(){
       const res = await this.$http.get(`rest/categories`)
       this.categories = res.data;
+      console.log(this.categories);
     },
   },
 

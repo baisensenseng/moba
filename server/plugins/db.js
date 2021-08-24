@@ -9,4 +9,8 @@ module.exports = app => {
   })
   .then(() => console.log("Connection Successful"))
   .catch(err => console.log(err));
+
+  require('require-all')(__dirname + '/../models')
+
+  
 }

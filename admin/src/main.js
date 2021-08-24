@@ -9,6 +9,9 @@ Vue.config.productionTip = false
 import http from './http'
 Vue.prototype.$http = http
 
+import axios from 'axios'
+Vue.prototype.$axios = axios;
+
 
 Vue.mixin({
   computed:{

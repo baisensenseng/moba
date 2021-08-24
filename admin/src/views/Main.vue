@@ -58,7 +58,7 @@
       </el-header>
       
       <el-main>
-        <router-view>
+        <router-view :key="$router.path">
 
         </router-view>
         <!-- <el-table :data="tableData">

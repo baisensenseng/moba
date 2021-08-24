@@ -35,7 +35,7 @@ module.exports = app =>{
     if (req.Model.modelName === 'Category') {
       queryOptions.populate = 'parent'
     }
-    const items = await req.Model.find().setOptions(queryOptions).limit(10)
+    const items = await req.Model.find().setOptions(queryOptions).limit(100)
     res.send(items)
   })
 
@@ -49,17 +49,23 @@ module.exports = app =>{
   });
 
   // 切换页面调用token验证接口
-  app.post('/admin/api/token', async (req, res) => {
+  app.post('/admin/api/checktoken', async (req, res) => {
+    // console.log('token1token1token1token1token1token1token1token1token1token1token1token1token1token1');
+    // console.log(req,'token1');
     const token = String(req.headers.authorization || '').split(' ').pop()
+    console.log(token, 'token');
     assert(token, 401, '请提供jwttoken')
+    console.log(jwt, 'jwt');
     const {id} = jwt.verify(token, req.app.get('secret'))
-    assert(id, 401, '无效的jwttoken')
+    console.log(id, 'id');
+    res.send('验证成功');
+    // assert(id, 401, '无效的jwttoken')
   });
 
   
   // 资源详情
   router.get('/:id', async (req, res) => {
-    console.log(req, res);
+    // console.log(req, res);
     const model = await req.Model.findById(req.params.id)
     res.send(model)
   })
@@ -85,18 +91,18 @@ module.exports = app =>{
 
     // 1.根据用户名找用户
     const alluser = await AdminUser.find()
-    console.log(alluser);
+    // console.log(alluser);
     const user = await AdminUser.findOne({username}).select('+password')
     assert(user, 422, '用户不存在')
 
     // 2.校验密码
     const isValid = require('bcrypt').compareSync(password, user.password)
-    console.log(isValid);
-    assert(isValid, 422, '用户密码错误不存在')
+    // console.log(isValid);
+    assert(isValid, 422, '用户密码错误')
 
     // 3.返回token
     const token = jwt.sign({ id: user._id}, app.get('secret'))
-    console.log(token);
+    // console.log(token);
     res.send({token})
   });
 

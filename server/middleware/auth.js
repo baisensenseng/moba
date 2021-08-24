@@ -5,6 +5,7 @@ module.exports = options => {
     const assert = require('http-assert')
 
     const token = String(req.headers.authorization || '').split(' ').pop()
+    // console.log(token,'token2');
     assert(token, 401, '请提供jwttoken')
     const {id} = jwt.verify(token, req.app.get('secret'))
     assert(id, 401, '无效的jwttoken')

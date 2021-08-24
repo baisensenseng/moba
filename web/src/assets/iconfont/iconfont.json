@@ -1,0 +1,44 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "351748",
+      "name": "返回",
+      "font_class": "fanhui",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    },
+    {
+      "icon_id": "887799",
+      "name": "菜单 (1)",
+      "font_class": "caidan1",
+      "unicode": "e611",
+      "unicode_decimal": 58897
+    },
+    {
+      "icon_id": "5232028",
+      "name": "more",
+      "font_class": "more",
+      "unicode": "e64b",
+      "unicode_decimal": 58955
+    },
+    {
+      "icon_id": "9241149",
+      "name": "新闻",
+      "font_class": "iconzhengli_xinwen",
+      "unicode": "e64a",
+      "unicode_decimal": 58954
+    },
+    {
+      "icon_id": "21924072",
+      "name": "英雄详情",
+      "font_class": "yingxiongxiangqing",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    }
+  ]
+}

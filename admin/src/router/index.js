@@ -82,7 +82,7 @@ router.beforeEach((to, from ,next) => {
     return next('/login')
   } else {
     // em
-    const res = Vue.prototype.$http.post('token')
+    const res = Vue.prototype.$http.post('checktoken')
     console.log(res.data)
   }
   next()
