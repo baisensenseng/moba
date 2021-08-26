@@ -13,7 +13,7 @@
     </div>
     <h1>{{model.name}}</h1>
     <!-- <video src="" controls></video> -->
-    <video :src="model.url" style="width: 100%" controls="controls"></video>
+    <video :src="model.url + '.mp4'" style="width: 100%" controls="controls"></video>
   </div>
 </template>
 
