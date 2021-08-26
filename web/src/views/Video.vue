@@ -14,7 +14,7 @@
     <h1>{{model.name}}</h1>
     <!-- <video src="" controls></video> -->
     <video :src="model.url" style="width: 100%" controls="controls"></video>
-    <video :src="model.url" controls="controls" class="video-style" webkit-playsinline="true" playsinline="true"
+    <video :src="model.url" style="width: 100%" controls="controls" class="video-style" webkit-playsinline="true" playsinline="true"
     x5-video-player-type="h5" x5-video-player-fullscreen="true">
     </video>
   </div>
