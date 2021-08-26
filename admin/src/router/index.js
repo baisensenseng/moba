@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../views/Login.vue'
 import Main from '../views/Main.vue'
+
 import CategoryEdit from '../views/CategoryEdit.vue'
 import CategoryList from '../views/CategoryList.vue'
 
@@ -13,6 +14,9 @@ import HeroList from '../views/HeroList.vue'
 
 import ArticleEdit from '../views/ArticleEdit.vue'
 import ArticleList from '../views/ArticleList.vue'
+
+import VideoEdit from '../views/VideoEdit.vue'
+import VideoList from '../views/VideoList.vue'
 
 import AdEdit from '../views/AdEdit.vue'
 import AdList from '../views/AdList.vue'
@@ -53,6 +57,10 @@ const routes = [
       { path: '/articles/create', component: ArticleEdit },
       { path: '/articles/edit/:id', component: ArticleEdit, props:true },
       { path: '/articles/list', component: ArticleList },
+
+      { path: '/videos/create', component: VideoEdit },
+      { path: '/videos/edit/:id', component: VideoEdit, props:true },
+      { path: '/videos/list', component: VideoList },
 
       { path: '/ads/create', component: AdEdit },
       { path: '/ads/edit/:id', component: AdEdit, props:true },

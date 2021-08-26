@@ -6,6 +6,7 @@ module.exports = (app) => {
   const Article = mongoose.model("Article");
   const Category = mongoose.model("Category");
   const Hero = mongoose.model("Hero");
+  const Video = mongoose.model("Video");
 
   // 导入新闻数据
   router.get("/news/init", async (req, res) => {
@@ -172,6 +173,17 @@ module.exports = (app) => {
     const data = await Hero.findById(req.params.id).lean()
     res.send(data)
   })
+
+  router.get('/videos/list', async (req, res) => {
+    const data = await Video.find()
+    res.send(data)
+  })
+
+  router.get('/videos/:id', async (req, res) => {
+    const data = await Video.findById(req.params.id).lean()
+    res.send(data)
+  })
+  
 
   app.use("/web/api", router);
 };

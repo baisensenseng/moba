@@ -49,6 +49,11 @@
         
       </template>
     </m-list-card>
+
+    <m-crad icon="caidan1" title="视频列表">
+      <router-link tag="div" :to="`/videos/${item._id}`" class="py-2" v-for="item in videoList" :key="item._id">{{item.name}}</router-link>
+    </m-crad>
+
   </div>
 </template>
 <script>
@@ -67,7 +72,8 @@ export default {
         }
       },
       newsCats: [],
-      heroCats: []
+      heroCats: [],
+      videoList: []
     }
   },
   computed: {
@@ -83,6 +89,7 @@ export default {
   created() {
     this.fetchNewsCats();
     this.fetchHeroCats();
+    this.fetchVideo();
   },
   mounted() {
     // current swiper instance
@@ -98,6 +105,11 @@ export default {
     async fetchHeroCats(){
       const res = await this.$http.get('heroes/list');
       this.heroCats = res.data;
+    },
+    async fetchVideo(){
+      const res = await this.$http.get('videos/list');
+      console.log(res);
+      this.videoList = res.data;
     }
   },
 }
