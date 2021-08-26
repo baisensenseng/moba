@@ -44,6 +44,7 @@ export default {
   },
   mounted() {
     // console.log($http); // eslint-disable-line no-unused-vars
+    console.log(this);
     console.log(this.model);
     console.log(this.$http.defaults.baseURL);
   },
