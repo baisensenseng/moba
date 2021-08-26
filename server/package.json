@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@fidm/x509": "^1.2.1",
+    "@google-cloud/storage": "^5.13.1",
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",

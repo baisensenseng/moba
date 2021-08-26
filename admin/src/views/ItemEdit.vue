@@ -12,10 +12,12 @@
           :action="$http.defaults.baseURL + '/upload'"
           :show-file-list="false"
           :on-success="afterUpload"
+          :headers="getAuthHeaders()"
         >
           <img v-if="model.icon" :src="model.icon" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
+        <video :src="model.icon" controls="controls"></video>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" native-type="submit">保存</el-button>
@@ -42,6 +44,8 @@ export default {
   },
   mounted() {
     // console.log($http); // eslint-disable-line no-unused-vars
+    console.log(this.model);
+    console.log(this.$http.defaults.baseURL);
   },
   methods: {
     
@@ -68,6 +72,7 @@ export default {
     async fetch(){
       const res = await this.$http.get(`rest/items/${this.id}`)
       this.model = res.data;
+      console.log(this.model);
     },
 
   },
