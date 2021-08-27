@@ -9,7 +9,7 @@
         <!-- <el-input v-model="model.icon"></el-input> -->
         <el-upload
           class="avatar-uploader"
-          :action="$http.defaults.baseURL + '/upload'"
+          :action="$http.defaults.baseURL + '/videoupload'"
           :show-file-list="false"
           :on-success="afterUpload"
           :headers="getAuthHeaders()"

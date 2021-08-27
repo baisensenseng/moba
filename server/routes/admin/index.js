@@ -76,21 +76,8 @@ module.exports = app =>{
 
   app.use("/admin/api/rest/:resource", authMiddleware(), resourceMiddleware(),router);
 
-  // const fs = require('fs')
+  
   const multer = require('multer')
-  // const upload = multer({ dest: __dirname + '/../../uploads' })
-
-  // 更改大文件的存储路径
-  // const createFolder = function(folder){
-  //   try{
-  //     fs.accessSync(folder);
-  //   }catch( e ){
-  //     fs.mkdirSync(folder);
-  //   }
-  // };
-  // const uploadFolder = `${__dirname} +  /../../uploads`
-
-  // createFolder(uploadFolder);
 
   // 通过 filename 属性定制
   const storage = multer.diskStorage({
@@ -98,6 +85,7 @@ module.exports = app =>{
         cb(null, `${__dirname} +  /../../uploads`);    // 保存的路径，备注：需要自己创建
     },
     filename: function (req, file, cb) {
+      console.log();
         // 将保存文件名设置为 字段名 + 时间戳，比如 logo-1478521468943
         cb(null, file.originalname);  
     }
@@ -112,6 +100,37 @@ module.exports = app =>{
     // file.url = `http://localhost:3000/uploads/${file.filename}`
     res.send(file)
   })
+
+  // 视频上传
+  const fs = require('fs')
+
+  app.post('/admin/api/videoupload', authMiddleware(), async (req, res) => {
+
+    // req.setHeader('Access-Control-Allow-Origin', '*');
+    req.pipe(fs.createWriteStream('.' + res.url, {
+        //    encoding:'binary' // 行
+        //    encoding:'base64' // 行
+        //   encoding:'utf8' // 不知道为什么，这里怎么设置都不影响，
+    }));
+    console.log(`${res.url} done!`)
+    res.end(`${res.url} done!`);
+    // res.send(file)
+  })
+
+  // fs.writeFile('./test2.txt', 'test test', function(err) {
+
+  //   if (err) {
+  //       throw err;
+  //   }
+  //   console.log('Saved.');
+  //   // 写入成功后读取测试
+  //   // fs.readFile('./test2.txt', 'utf-8', function(err, data) {
+  //   //     if (err) {
+  //   //         throw err;
+  //   //     }
+  //   //     console.log(data);
+  //   // });
+  // });
 
   // 登陆
   app.post('/admin/api/login', async(req, res) => {
