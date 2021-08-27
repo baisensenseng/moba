@@ -76,8 +76,36 @@ module.exports = app =>{
 
   app.use("/admin/api/rest/:resource", authMiddleware(), resourceMiddleware(),router);
 
+  const fs = require('fs')
   const multer = require('multer')
-  const upload = multer({ dest: __dirname + '/../../uploads' })
+  // const upload = multer({ dest: __dirname + '/../../uploads' })
+
+  // 更改大文件的存储路径
+  const createFolder = function(folder){
+    try{
+      fs.accessSync(folder);
+    }catch( e ){
+      fs.mkdirSync(folder);
+    }
+  };
+  const uploadFolder = `${__dirname} +  /../../uploads`
+
+  createFolder(uploadFolder);
+
+  // 通过 filename 属性定制
+  const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, uploadFolder);    // 保存的路径，备注：需要自己创建
+    },
+    filename: function (req, file, cb) {
+        // 将保存文件名设置为 字段名 + 时间戳，比如 logo-1478521468943
+        cb(null, file.originalname);  
+    }
+  });
+  // 通过 storage 选项来对 上传行为 进行定制化
+  const upload = multer({ storage: storage })
+
+
   app.post('/admin/api/upload', upload.single('file'), authMiddleware(), async (req, res) => {
     const file = req.file
     file.url = `http://text.xierongfei.club/uploads/${file.filename}`
