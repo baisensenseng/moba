@@ -45,6 +45,7 @@ export default {
 
   mounted() {
     // this.fetchinitVideo()
+    console.log('video');
   },
 
   methods:{
