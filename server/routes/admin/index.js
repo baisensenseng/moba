@@ -1,9 +1,12 @@
 module.exports = app =>{
   const express = require('express')
   const jwt = require('jsonwebtoken')
+  const fs = require('fs')
   const AdminUser = require('../../models/AdminUser')
   const User = require('../../models/User')
+  const Video = require('../../models/Video')
   const assert = require('http-assert')
+  
 
   const router = express.Router({
     mergeParams: true
@@ -31,13 +34,13 @@ module.exports = app =>{
 
   // 资源列表
   router.get('/', async(req, res) => {
-    console.log('123123',req);
+    // console.log(req,'资源列表资源列表资源列表资源列表');
     const queryOptions = {}
     if (req.Model.modelName === 'Category') {
       queryOptions.populate = 'parent'
     }
     const items = await req.Model.find().setOptions(queryOptions).limit(100)
-    console.log('itemsitemsitemsitems',items);
+    // console.log('itemsitemsitemsitems',items);
     res.send(items)
   })
 
@@ -69,12 +72,14 @@ module.exports = app =>{
     res.send(model)
   })
 
+
+
   // 登陆授权中间件
   const authMiddleware = require('../../middleware/auth')
   // 获取模型中间件
   const resourceMiddleware = require('../../middleware/resource')
 
-  app.use("/admin/api/rest/:resource", authMiddleware(), resourceMiddleware(),router);
+  app.use("/admin/api/rest/:resource", resourceMiddleware(),router);
 
   
   const multer = require('multer')
@@ -82,12 +87,11 @@ module.exports = app =>{
   // 通过 filename 属性定制
   const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, `${__dirname} +  /../../uploads`);    // 保存的路径，备注：需要自己创建
+      cb(null, `${__dirname} +  /../../uploads`);    // 保存的路径，备注：需要自己创建
     },
     filename: function (req, file, cb) {
-      console.log();
-        // 将保存文件名设置为 字段名 + 时间戳，比如 logo-1478521468943
-        cb(null, file.originalname);  
+      // console.log();
+      cb(null, file.originalname);  
     }
   });
   // 通过 storage 选项来对 上传行为 进行定制化
@@ -101,36 +105,27 @@ module.exports = app =>{
     res.send(file)
   })
 
+
   // 视频上传
-  const fs = require('fs')
+  
 
-  app.post('/admin/api/videoupload', authMiddleware(), async (req, res) => {
-
-    // req.setHeader('Access-Control-Allow-Origin', '*');
-    req.pipe(fs.createWriteStream('.' + res.url, {
-        //    encoding:'binary' // 行
-        //    encoding:'base64' // 行
-        //   encoding:'utf8' // 不知道为什么，这里怎么设置都不影响，
-    }));
-    console.log(`${res.url} done!`)
-    res.end(`${res.url} done!`);
-    // res.send(file)
+  app.post('/admin/api/videoupload', upload.single('file'), authMiddleware(), async (req, res) => {
+    const file = req.file
+    file.url = `${file.filename}`
+    res.send(file)
   })
 
-  // fs.writeFile('./test2.txt', 'test test', function(err) {
-
-  //   if (err) {
-  //       throw err;
-  //   }
-  //   console.log('Saved.');
-  //   // 写入成功后读取测试
-  //   // fs.readFile('./test2.txt', 'utf-8', function(err, data) {
-  //   //     if (err) {
-  //   //         throw err;
-  //   //     }
-  //   //     console.log(data);
-  //   // });
-  // });
+  // 视频资源详情
+  router.get('/video/:id', async (req, res) => {
+    const model = await req.Model.findById(req.params.id)
+    const videoPath =  `${__dirname} +  /../../uploads/${model.url}`;
+    var stream = fs.createReadStream(videoPath)
+      .on("open", function() {
+        stream.pipe(res);
+      }).on("error", function(err) {
+        res.end(err);
+      });
+  })
 
   // 登陆
   app.post('/admin/api/login', async(req, res) => {

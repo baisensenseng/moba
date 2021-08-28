@@ -7,17 +7,20 @@
       </el-form-item>
       <el-form-item label="视频">
         <!-- <el-input v-model="model.icon"></el-input> -->
-        <el-upload
+        <!-- <el-upload
           class="avatar-uploader"
           :action="$http.defaults.baseURL + '/videoupload'"
           :show-file-list="false"
           :on-success="afterUpload"
           :headers="getAuthHeaders()"
-        >
+        > -->
           <!-- <img v-if="model.icon" :src="model.icon" class="avatar"> -->
-          <video v-if="model.url" :src="model.url" controls="controls" style="height: 500px;"></video>
-          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-        </el-upload>
+          <!-- <video v-if="model.url" :src="model.url" controls="controls" style="height: 500px;"></video>
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i> -->
+          <video v-if="model.url !== ''" controls="controls" style="height: 500px;">
+            <source :src="model.url"   type="video/mp4">
+          </video>
+        <!-- </el-upload> -->
       </el-form-item>
       <el-form-item>
         <el-button type="primary" native-type="submit">保存</el-button>
@@ -35,15 +38,16 @@ export default {
   data(){
     return{
       model:{
-        // icon: '',
+        url: '',
       },
     }
   },
   created(){
-    this.id && this.fetch();
+    
   },
   mounted() {
     // console.log($http); // eslint-disable-line no-unused-vars
+    this.id && this.fetch();
     console.log(this);
     console.log(this.model);
     console.log(this.$http.defaults.baseURL);
@@ -71,8 +75,12 @@ export default {
     },
 
     async fetch(){
-      const res = await this.$http.get(`rest/videos/${this.id}`)
-      this.model = res.data;
+      const res = await this.$http.get(`rest/videos/video/${this.id}`)
+      // console.log(res.config);
+      // this.model = res.data;
+      // console.log(this.model);
+      this.model.url = res.config.baseURL + '/' + res.config.url;
+      // console.log(res);
       console.log(this.model);
     },
 
