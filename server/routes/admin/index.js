@@ -135,7 +135,8 @@ module.exports = app =>{
     app.get('/admin/api/videosrc', async (req, res2) => {
       console.log(res2);
       console.log(model);
-      const videoPath =  `${__dirname} +  /../../uploads/${model.url}`;
+      // const videoPath =  `${__dirname} +  /../../uploads/${model.url}`;
+      const videoPath =  `../../uploads/${model.url}`;
       var stream = fs.createReadStream(videoPath)
         .on("open", function() {
           stream.pipe(res2);
