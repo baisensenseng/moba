@@ -139,9 +139,7 @@ module.exports = app =>{
       var stream = fs.createReadStream(videoPath)
         .on("open", function() {
           stream.pipe(res2);
-        }).on("error", function(err) {
-          res2.end(err);
-        });
+        })
     })
   })
 
