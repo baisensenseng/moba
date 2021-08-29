@@ -132,15 +132,15 @@ module.exports = app =>{
     //     res.end(err);
     //   });
     // 视频资源url详情
-    app.get('/admin/api/videosrc', async (req, res) => {
-      // console.log(req.query);
+    app.get('/admin/api/videosrc', async (req, res2) => {
+      console.log(res2);
       console.log(model);
       const videoPath =  `${__dirname} +  /../../uploads/${model.url}`;
       var stream = fs.createReadStream(videoPath)
         .on("open", function() {
-          stream.pipe(res);
+          stream.pipe(res2);
         }).on("error", function(err) {
-          res.end(err);
+          res2.end(err);
         });
     })
   })
