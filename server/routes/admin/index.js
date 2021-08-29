@@ -1,12 +1,10 @@
 module.exports = app =>{
   const express = require('express')
   const jwt = require('jsonwebtoken')
-  const fs = require('fs')
   const AdminUser = require('../../models/AdminUser')
   const User = require('../../models/User')
   const Video = require('../../models/Video')
   const assert = require('http-assert')
-  
 
   const router = express.Router({
     mergeParams: true
@@ -107,25 +105,48 @@ module.exports = app =>{
 
 
   // 视频上传
-  
+  const fs = require('fs')
 
   app.post('/admin/api/videoupload', upload.single('file'), authMiddleware(), async (req, res) => {
+    // console.log(req);
+    // console.log(req.params);
+    // console.log(req.query);
     const file = req.file
+    // // file.url = `http://moba.xrfclub.com/uploads/${file.filename}`
     file.url = `${file.filename}`
     res.send(file)
   })
 
-  // 视频资源详情
+  // 视频资源url详情
   router.get('/video/:id', async (req, res) => {
+    // console.log(req.params);
     const model = await req.Model.findById(req.params.id)
-    const videoPath =  `${__dirname} +  /../../uploads/${model.url}`;
-    var stream = fs.createReadStream(videoPath)
-      .on("open", function() {
-        stream.pipe(res);
-      }).on("error", function(err) {
-        res.end(err);
-      });
+    // console.log(model);
+    res.send(model)
+    // const videoPath =  `${__dirname} +  /../../uploads/小片片说大片 2021-08-15 17_27.mp4`;
+    // console.log(model);
+    // var stream = fs.createReadStream(videoPath)
+    //   .on("open", function() {
+    //     stream.pipe(res);
+    //   }).on("error", function(err) {
+    //     res.end(err);
+    //   });
+    // 视频资源url详情
+    app.get('/admin/api/videosrc', async (req, res) => {
+      // console.log(req.query);
+      console.log(model);
+      const videoPath =  `${__dirname} +  /../../uploads/${model.url}`;
+      var stream = fs.createReadStream(videoPath)
+        .on("open", function() {
+          stream.pipe(res);
+        }).on("error", function(err) {
+          res.end(err);
+        });
+    })
   })
+
+  
+  
 
   // 登陆
   app.post('/admin/api/login', async(req, res) => {

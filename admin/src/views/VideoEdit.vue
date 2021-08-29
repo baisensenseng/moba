@@ -16,7 +16,8 @@
         >
           <!-- <img v-if="model.icon" :src="model.icon" class="avatar"> -->
           <video v-if="model.url !== ''" controls="controls" style="height: 500px;">
-            <source :src="model.url"   type="video/mp4">
+          <!-- <video controls="controls" style="height: 500px;"> -->
+            <source src="http://localhost:3000/admin/api/videosrc/"   type="video/mp4">
           </video>
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
@@ -42,21 +43,17 @@ export default {
     }
   },
   created(){
-    
-  },
-  mounted() {
     // console.log($http); // eslint-disable-line no-unused-vars
     this.id && this.fetch();
-    console.log(this);
-    console.log(this.model);
-    console.log(this.$http.defaults.baseURL);
+  },
+  mounted() {
+    // const res = this.$http.get('videosrc')
+    // console.log(res);
   },
   methods: {
     
     afterUpload(res){
-      console.log(res)
       this.$set(this.model, 'url', res.url);
-      // this.model.icon = res.rul;
     },
 
     async save(){
@@ -75,12 +72,13 @@ export default {
 
     async fetch(){
       const res = await this.$http.get(`rest/videos/video/${this.id}`)
-      // console.log(res.config);
-      // this.model = res.data;
-      // console.log(this.model);
-      this.model.url = res.config.baseURL + '/' + res.config.url;
-      // console.log(res);
+      
+      console.log(res.data);
+      this.model = res.data;
       console.log(this.model);
+      // this.model.url = res.config.baseURL + '/' + res.config.url;
+      // console.log(res);
+      // console.log(this.model);
     },
 
   },
