@@ -18,7 +18,7 @@
           <video v-if="model.url !== ''" controls="controls" style="height: 500px;">
           <!-- <video controls="controls" style="height: 500px;"> -->
             <!-- <source src="http://localhost:3000/admin/api/videosrc/"   type="video/mp4"> -->
-            <source src="http://moba.xrfclub.com//admin/api/videosrc/"   type="video/mp4">
+            <source src="http://moba.xrfclub.com/admin/api/videosrc/"   type="video/mp4">
           </video>
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
