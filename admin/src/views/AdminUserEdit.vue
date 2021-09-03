@@ -12,10 +12,17 @@
         <el-button type="primary" native-type="submit">保存</el-button>
       </el-form-item>
     </el-form>
+    <el-form label-width="120px" @submit.native.prevent="alipay">
+      <el-form-item>
+        <el-button type="primary" native-type="submit">支付</el-button>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
 <script>
+import alipayf2f from 'alipay-ftof';
+
 export default {
   props:{
     id: {}
@@ -47,6 +54,20 @@ export default {
     async fetch(){
       const res = await this.$http.get(`rest/admin_users/${this.id}`)
       this.model = res.data;
+    },
+
+    async alipay(){
+      var alipay_f2f = new alipayf2f(require("./config"));
+      alipay_f2f.createQRPay({
+          tradeNo: "123",      // 必填 商户订单主键, 就是你要生成的
+          subject: "女装",      // 必填 商品概要
+          totalAmount: 0.5,    // 必填 多少钱
+          body: "黑丝吊带小蜡烛", // 可选 订单描述, 可以对交易或商品进行一个详细地描述，比如填写"购买商品2件共15.00元"
+          timeExpress: 5       // 可选 支付超时, 默认为5分钟
+      }).then(result => {
+          console.log(result) // 支付宝返回的结果
+      }).catch(error => console.error(error));
+
     },
     
   },
