@@ -196,6 +196,7 @@ module.exports = (app) => {
       /* 订单状态 */
       var invoiceStatus = req.body["trade_status"];
 
+      console.log(req);
       // 支付宝回调通知有多种状态您可以点击已下链接查看支付宝全部通知状态
       // https://doc.open.alipay.com/docs/doc.htm?spm=a219a.7386797.0.0.aZMdK2&treeId=193&articleId=103296&docType=1#s1
       if(invoiceStatus !== "TRADE_SUCCESS") {
@@ -203,7 +204,7 @@ module.exports = (app) => {
       }
 
       /* 一切都验证好后就能更新数据库里数据说用户已经付钱啦 */
-      req.database.update(noInvoice, { pay: true }).then(result => res.send("success")).catch(err => res.catch(err));
+      // req.database.update(noInvoice, { pay: true }).then(result => res.send("success")).catch(err => res.catch(err));
   });
 
   app.use("/web/api", router);
