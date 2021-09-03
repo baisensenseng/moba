@@ -71,7 +71,11 @@
             支付
           </a-button>
         </div>
-        
+        <!-- <div> -->
+        <a-modal v-model="isPayqrcode" title="支付二维码" @ok="handleOk">
+          <div class="code" id="qrcode" ref="qrcode"></div>
+        </a-modal>
+        <!-- </div> -->
       </div>
     </m-crad>
 
@@ -80,6 +84,7 @@
 <script>
 import dayjs from 'dayjs'
 import alipayf2f from 'alipay-ftof';
+import QRCode from 'qrcodejs2'
 
 export default {
   data() {
@@ -101,7 +106,9 @@ export default {
         totalAmount: 0.5,    // 必填 多少钱
         body: "黑丝吊带小蜡烛", // 可选 订单描述, 可以对交易或商品进行一个详细地描述，比如填写"购买商品2件共15.00元"
         timeExpress: 5       // 可选 支付超时, 默认为5分钟
-      }
+      },
+      isPayqrcode:false,
+      qrcode:'',
     }
   },
   computed: {
@@ -144,8 +151,43 @@ export default {
       var alipay_f2f = new alipayf2f(require("./config"));
       alipay_f2f.createQRPay(this.alipayinfo).then(result => {
           console.log(result) // 支付宝返回的结果
+        if (result.alipay_trade_precreate_response.code === '10000') {
+          this.qrcode = result.alipay_trade_precreate_response.qr_code;
+          this.payOrder()
+        }
       }).catch(error => console.error(error));
 
+    },
+    // 展示二维码
+    payOrder () {
+      this.isPayqrcode = true
+      // 二维码内容,一般是由后台返回的跳转链接,这里是写死的一个链接
+      // this.qrcode = ''
+      // 使用$nextTick确保数据渲染
+      this.$nextTick(() => {
+        this.crateQrcode()
+      })
+    },
+    // 生成二维码
+    crateQrcode () {
+      this.qr = new QRCode('qrcode', {
+        width: 150,
+        height: 150, // 高度
+        text: this.qrcode // 二维码内容
+        // render: 'canvas' // 设置渲染方式（有两种方式 table和canvas，默认是canvas）
+        // background: '#f0f'
+        // foreground: '#ff0'
+      })
+      // console.log(this.qrcode)
+    },
+    // 关闭弹框,清除已经生成的二维码
+    closeCode () {
+      this.$refs.qrcode.innerHTML = ''
+    },
+    handleOk(e) {
+      console.log(e);
+      this.isPayqrcode = false;
+      this.$refs.qrcode.innerHTML = '';
     },
   },
 }
