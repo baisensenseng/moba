@@ -101,7 +101,7 @@ export default {
       heroCats: [],
       videoList: [],
       alipayinfo:{
-        tradeNo: "1",      // 必填 商户订单主键, 就是你要生成的
+        tradeNo: "2",      // 必填 商户订单主键, 就是你要生成的
         subject: "女装",      // 必填 商品概要
         totalAmount: 0.5,    // 必填 多少钱
         body: "黑丝吊带小蜡烛", // 可选 订单描述, 可以对交易或商品进行一个详细地描述，比如填写"购买商品2件共15.00元"
