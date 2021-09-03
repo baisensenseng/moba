@@ -153,7 +153,7 @@ export default {
       console.log(this.alipayinfo);
       var alipay_f2f = new alipayf2f(require("./config"));
       alipay_f2f.createQRPay(this.alipayinfo).then(result => {
-          console.log(result) // 支付宝返回的结果
+        console.log(result) // 支付宝返回的结果
         if (result.alipay_trade_precreate_response.code === '10000') {
           this.qrcode = result.alipay_trade_precreate_response.qr_code;
           this.payOrder()

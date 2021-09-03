@@ -120,14 +120,13 @@ module.exports = app =>{
     })
   })
   
-
+  const alipay_f2f = require('alipay_f2f')
   router.post("/callback", (req, res) => {
       /* 请勿改动支付宝回调过来的post参数, 否则会导致验签失败 */
       var signStatus = alipay_f2f.verifyCallback(req.body);
       if(signStatus === false) {
           return res.error("回调签名验证未通过");
       }
-
       /* 商户订单号 */
       var noInvoice = req.body["out_trade_no"];
       /* 订单状态 */
