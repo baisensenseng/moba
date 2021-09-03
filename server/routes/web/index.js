@@ -184,7 +184,7 @@ module.exports = (app) => {
     res.send(data)
   })
   
-  router.post("/callback", (req, res) => {
+  router.post("/alipaycallback", (req, res) => {
       /* 请勿改动支付宝回调过来的post参数, 否则会导致验签失败 */
       var signStatus = alipay_f2f.verifyCallback(req.body);
       // if(signStatus === false) {
