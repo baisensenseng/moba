@@ -120,7 +120,7 @@ module.exports = app =>{
     })
   })
   
-  const alipay_f2f = require('alipay_f2f')
+  const alipay_f2f = require('alipay-ftof')
   router.post("/callback", (req, res) => {
       /* 请勿改动支付宝回调过来的post参数, 否则会导致验签失败 */
       var signStatus = alipay_f2f.verifyCallback(req.body);
