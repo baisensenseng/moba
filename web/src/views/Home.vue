@@ -54,11 +54,32 @@
       <router-link tag="div" :to="`/videos/${item._id}`" class="py-2" v-for="item in videoList" :key="item._id">{{item.name}}</router-link>
     </m-crad>
 
+    <m-crad icon="caidan1" title="支付模块">
+      <!-- <router-link tag="div" :to="`/videos/${item._id}`" class="py-2" v-for="item in videoList" :key="item._id">{{item.name}}</router-link> -->
+      <div class="components-input-demo-presuffix">
+        <!-- <a-input ref="userNameInput" v-model="alipayinfo.userName" placeholder="Basic usage">
+          <a-icon slot="prefix" type="user" />
+          <a-tooltip slot="suffix" title="Extra information">
+            <a-icon type="info-circle" style="color: rgba(0,0,0,.45)" />
+          </a-tooltip>
+        </a-input>
+        <br />
+        <br /> -->
+        <a-input prefix="￥" suffix="RMB" v-model.number="alipayinfo.totalAmount" />
+        <div class="text-center mt-3">
+          <a-button type="primary" @click="alipay">
+            支付
+          </a-button>
+        </div>
+        
+      </div>
+    </m-crad>
+
   </div>
 </template>
 <script>
 import dayjs from 'dayjs'
-
+import alipayf2f from 'alipay-ftof';
 
 export default {
   data() {
@@ -73,7 +94,14 @@ export default {
       },
       newsCats: [],
       heroCats: [],
-      videoList: []
+      videoList: [],
+      alipayinfo:{
+        tradeNo: "123",      // 必填 商户订单主键, 就是你要生成的
+        subject: "女装",      // 必填 商品概要
+        totalAmount: 0.5,    // 必填 多少钱
+        body: "黑丝吊带小蜡烛", // 可选 订单描述, 可以对交易或商品进行一个详细地描述，比如填写"购买商品2件共15.00元"
+        timeExpress: 5       // 可选 支付超时, 默认为5分钟
+      }
     }
   },
   computed: {
@@ -110,7 +138,15 @@ export default {
       const res = await this.$http.get('videos/list');
       console.log(res);
       this.videoList = res.data;
-    }
+    },
+    async alipay(){
+      console.log(this.alipayinfo);
+      var alipay_f2f = new alipayf2f(require("./config"));
+      alipay_f2f.createQRPay(this.alipayinfo).then(result => {
+          console.log(result) // 支付宝返回的结果
+      }).catch(error => console.error(error));
+
+    },
   },
 }
 </script>
