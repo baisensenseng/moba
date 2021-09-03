@@ -101,7 +101,7 @@ export default {
       heroCats: [],
       videoList: [],
       alipayinfo:{
-        tradeNo: "3",      // 必填 商户订单主键, 就是你要生成的
+        tradeNo: "4",      // 必填 商户订单主键, 就是你要生成的
         // subject: "女装",      // 必填 商品概要
         subject: "nvzhuan",      // 必填 商品概要
         totalAmount: 0.5,    // 必填 多少钱

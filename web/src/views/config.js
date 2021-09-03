@@ -8,7 +8,7 @@ module.exports = {
 	"appid": 2021001163674817,
 
 	/* 通知URL 接受支付宝异步通知需要用到  */
-	"notifyUrl": "http://moba.xrfclub.com/api/alipaycallback",
+	"notifyUrl": "http://moba.xrfclub.com/web/api/alipaycallback",
 
 	/* 公钥 和 私钥 的填写方式 */
 	// "testPrivateKey": "-----BEGIN RSA PRIVATE KEY-----\n" +
