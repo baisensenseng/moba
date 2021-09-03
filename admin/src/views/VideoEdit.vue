@@ -7,16 +7,19 @@
       </el-form-item>
       <el-form-item label="视频">
         <!-- <el-input v-model="model.icon"></el-input> -->
+        <video v-if="model.url !== ''" controls="controls" style="height: 500px;">
+          <source src="http://localhost:3000/admin/api/videosrc/"   type="video/mp4">
+          <!-- <source src="http://moba.xrfclub.com/admin/api/videosrc/"   type="video/mp4"> -->
+        </video>
         <el-upload
+          v-else
           class="avatar-uploader"
           :action="$http.defaults.baseURL + '/videoupload'"
           :show-file-list="false"
           :on-success="afterUpload"
           :headers="getAuthHeaders()"
-        >
-          <!-- <img v-if="model.icon" :src="model.icon" class="avatar"> -->
-          <video v-if="model.url" :src="model.url" controls="controls" style="height: 500px;"></video>
-          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        >   
+          <i class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
       </el-form-item>
       <el-form-item>
@@ -35,7 +38,7 @@ export default {
   data(){
     return{
       model:{
-        // icon: '',
+        url: '',
       },
     }
   },
@@ -43,17 +46,11 @@ export default {
     this.id && this.fetch();
   },
   mounted() {
-    // console.log($http); // eslint-disable-line no-unused-vars
-    console.log(this);
-    console.log(this.model);
-    console.log(this.$http.defaults.baseURL);
   },
   methods: {
     
     afterUpload(res){
-      console.log(res)
       this.$set(this.model, 'url', res.url);
-      // this.model.icon = res.rul;
     },
 
     async save(){
@@ -71,9 +68,9 @@ export default {
     },
 
     async fetch(){
-      const res = await this.$http.get(`rest/videos/${this.id}`)
+      const res = await this.$http.get(`rest/videos/video/${this.id}`)
+      console.log(res);
       this.model = res.data;
-      console.log(this.model);
     },
 
   },

@@ -3,6 +3,7 @@ module.exports = app =>{
   const jwt = require('jsonwebtoken')
   const AdminUser = require('../../models/AdminUser')
   const User = require('../../models/User')
+  const Video = require('../../models/Video')
   const assert = require('http-assert')
 
   const router = express.Router({
@@ -31,13 +32,11 @@ module.exports = app =>{
 
   // 资源列表
   router.get('/', async(req, res) => {
-    console.log('123123',req);
     const queryOptions = {}
     if (req.Model.modelName === 'Category') {
       queryOptions.populate = 'parent'
     }
     const items = await req.Model.find().setOptions(queryOptions).limit(100)
-    console.log('itemsitemsitemsitems',items);
     res.send(items)
   })
 
@@ -53,11 +52,8 @@ module.exports = app =>{
   // 切换页面调用token验证接口
   app.post('/admin/api/checktoken', async (req, res) => {
     const token = String(req.headers.authorization || '').split(' ').pop()
-    // console.log(token, 'token');
     assert(token, 401, '请提供jwttoken')
-    // console.log(jwt, 'jwt');
     const {id} = jwt.verify(token, req.app.get('secret'))
-    // console.log(id, 'id');
     res.send('验证成功');
     // assert(id, 401, '无效的jwttoken')
   });
@@ -69,12 +65,14 @@ module.exports = app =>{
     res.send(model)
   })
 
+
+
   // 登陆授权中间件
   const authMiddleware = require('../../middleware/auth')
   // 获取模型中间件
   const resourceMiddleware = require('../../middleware/resource')
 
-  app.use("/admin/api/rest/:resource", authMiddleware(), resourceMiddleware(),router);
+  app.use("/admin/api/rest/:resource", resourceMiddleware(),router);
 
   
   const multer = require('multer')
@@ -82,12 +80,10 @@ module.exports = app =>{
   // 通过 filename 属性定制
   const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, `${__dirname} +  /../../uploads`);    // 保存的路径，备注：需要自己创建
+      cb(null, `${__dirname} +  /../../uploads`);    // 保存的路径，备注：需要自己创建
     },
     filename: function (req, file, cb) {
-      console.log();
-        // 将保存文件名设置为 字段名 + 时间戳，比如 logo-1478521468943
-        cb(null, file.originalname);  
+      cb(null, file.originalname);  
     }
   });
   // 通过 storage 选项来对 上传行为 进行定制化
@@ -101,36 +97,29 @@ module.exports = app =>{
     res.send(file)
   })
 
+
   // 视频上传
   const fs = require('fs')
 
-  app.post('/admin/api/videoupload', authMiddleware(), async (req, res) => {
-
-    // req.setHeader('Access-Control-Allow-Origin', '*');
-    req.pipe(fs.createWriteStream('.' + res.url, {
-        //    encoding:'binary' // 行
-        //    encoding:'base64' // 行
-        //   encoding:'utf8' // 不知道为什么，这里怎么设置都不影响，
-    }));
-    console.log(`${res.url} done!`)
-    res.end(`${res.url} done!`);
-    // res.send(file)
+  app.post('/admin/api/videoupload', upload.single('file'), authMiddleware(), async (req, res) => {
+    const file = req.file
+    // // file.url = `http://moba.xrfclub.com/uploads/${file.filename}`
+    file.url = `${file.filename}`
+    res.send(file)
   })
 
-  // fs.writeFile('./test2.txt', 'test test', function(err) {
-
-  //   if (err) {
-  //       throw err;
-  //   }
-  //   console.log('Saved.');
-  //   // 写入成功后读取测试
-  //   // fs.readFile('./test2.txt', 'utf-8', function(err, data) {
-  //   //     if (err) {
-  //   //         throw err;
-  //   //     }
-  //   //     console.log(data);
-  //   // });
-  // });
+  // 视频资源url详情
+  router.get('/video/:id', async (req, res) => {
+    const model = await req.Model.findById(req.params.id)
+    res.send(model)
+    // 视频资源url详情
+    app.get('/admin/api/videosrc', async (req, res2) => {
+      console.log(model);
+      const videoPath =  `${__dirname} +  /../../uploads/${model.url}`;
+      fs.createReadStream(videoPath).pipe(res2);
+    })
+  })
+  
 
   router.post("/callback", (req, res) => {
       /* 请勿改动支付宝回调过来的post参数, 否则会导致验签失败 */
@@ -160,18 +149,15 @@ module.exports = app =>{
 
     // 1.根据用户名找用户
     const alluser = await AdminUser.find()
-    // console.log(alluser);
     const user = await AdminUser.findOne({username}).select('+password')
     assert(user, 422, '用户不存在')
 
     // 2.校验密码
     const isValid = require('bcryptjs').compareSync(password, user.password)
-    // console.log(isValid);
     assert(isValid, 422, '用户密码错误')
 
     // 3.返回token
     const token = jwt.sign({ id: user._id}, app.get('secret'))
-    // console.log(token);
     res.send({token})
   });
 
