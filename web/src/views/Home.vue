@@ -66,14 +66,15 @@
         <br />
         <br /> -->
         <a-input prefix="￥" suffix="RMB" v-model.number="alipayinfo.totalAmount" />
+        <a-input prefix="" suffix="tradeNo" placeholder="必填，随便填不能重复" v-model.number="alipayinfo.tradeNo" />
         <div class="text-center mt-3">
           <a-button type="primary" @click="alipay">
             支付
           </a-button>
         </div>
         <!-- <div> -->
-        <a-modal v-model="isPayqrcode" title="支付二维码" @ok="handleOk">
-          <div class="code" id="qrcode" ref="qrcode"></div>
+        <a-modal class="qrcode-content" v-model="isPayqrcode" title="支付二维码" @ok="handleOk">
+          <div class="code text-center" id="qrcode" ref="qrcode"></div>
         </a-modal>
         <!-- </div> -->
       </div>
@@ -101,12 +102,10 @@ export default {
       heroCats: [],
       videoList: [],
       alipayinfo:{
-        tradeNo: "4",      // 必填 商户订单主键, 就是你要生成的
-        // subject: "女装",      // 必填 商品概要
-        subject: "nvzhuan",      // 必填 商品概要
+        tradeNo: "",      // 必填 商户订单主键, 就是你要生成的
+        subject: "女装",      // 必填 商品概要
         totalAmount: 0.5,    // 必填 多少钱
-        // body: "黑丝吊带小蜡烛", // 可选 订单描述, 可以对交易或商品进行一个详细地描述，比如填写"购买商品2件共15.00元"
-        body: "nvzhuan", // 可选 订单描述, 可以对交易或商品进行一个详细地描述，比如填写"购买商品2件共15.00元"
+        body: "黑丝吊带小蜡烛", // 可选 订单描述, 可以对交易或商品进行一个详细地描述，比如填写"购买商品2件共15.00元"
         timeExpress: 5       // 可选 支付超时, 默认为5分钟
       },
       isPayqrcode:false,
@@ -152,17 +151,23 @@ export default {
     async alipay(){
       console.log(this.alipayinfo);
       var alipay_f2f = new alipayf2f(require("./config"));
+      console.log(alipay_f2f);
       alipay_f2f.createQRPay(this.alipayinfo).then(result => {
         console.log(result) // 支付宝返回的结果
-        if (result.alipay_trade_precreate_response.code === '10000') {
-          this.qrcode = result.alipay_trade_precreate_response.qr_code;
+        if (result.code === '10000') {
+          this.qrcode = result.qr_code;
           this.payOrder()
         }
+        // if (result.alipay_trade_precreate_response.code === '10000') {
+        //   this.qrcode = result.alipay_trade_precreate_response.qr_code;
+        //   this.payOrder()
+        // }
       }).catch(error => console.error(error));
 
     },
     // 展示二维码
     payOrder () {
+      console.log('payOrder');
       this.isPayqrcode = true
       // 二维码内容,一般是由后台返回的跳转链接,这里是写死的一个链接
       // this.qrcode = ''
@@ -221,4 +226,16 @@ export default {
   }
   
 }
+.qrcode-content{
+  .ant-modal-body{
+    text-align: center;
+  }
+  .code{
+    display: inline-block;
+    img{
+      display: inline-block !important;
+    }
+  }
+}
+
 </style>
