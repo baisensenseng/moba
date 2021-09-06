@@ -184,10 +184,55 @@ module.exports = (app) => {
     res.send(data)
   })
   
+
+  // 支付模块
   // const alipay_f2f = require('alipay-ftof')
+  const alipayf2f = require('alipay-ftof')
+  router.post("/createInvoice", (req, res) => {
+    console.log(req.body);
+
+    const alipay_f2f = new alipayf2f(require("./config"));
+    var totalAmount = req.body.totalAmount || "";
+    if(totalAmount == "") {
+      return res.error("请填写测试金额.");
+    }
+    totalAmount = parseFloat(totalAmount);
+    if(isNaN(totalAmount)) {
+      return res.error("测试金额输入错误.");
+    }
+    /* 支付宝支持2位小数的金额 */
+    totalAmount = totalAmount.toFixed(2);
+
+    /* 生成订单唯一编号 仅作为演示 请勿使用在生产环境 */
+    var noInvoice = `alipayf2f_${new Date().getTime()}`;
+
+    var createInvoiceResult = null;
+
+    /* 参数详细请翻源码 */
+    alipay_f2f.createQRPay({
+      tradeNo: noInvoice,
+      subject: "测试订单",
+      totalAmount: totalAmount,
+      body: "女装物品",
+      timeExpress: 5,
+    }).then(result => {
+      if(result.code != 10000) {
+        return res.error("支付宝网关返回错误, 请联系管理员.");
+      }
+      res.send(result)
+    }).catch(error => {
+      if(error.info != null) {
+        console.error(error.message, error.info);
+      }
+      res.error(error.message);
+    });
+  });
+
+
   router.post("/alipaycallback", (req, res) => {
     console.log(req);
-    var signStatus = req.alipayf2f.verifyCallback(req.body);
+    const alipay_f2f = new alipayf2f(require("./config"));
+    var signStatus = alipay_f2f.verifyCallback(req.body);
     console.log(signStatus);
     if(signStatus === false) {
       return res.error("回调签名验证未通过");
