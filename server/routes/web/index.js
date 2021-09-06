@@ -231,6 +231,7 @@ module.exports = (app) => {
 
   router.post("/alipaycallback", (req, res) => {
     console.log(req);
+    console.log(req.body);
     const alipay_f2f = new alipayf2f(require("./config"));
     var signStatus = alipay_f2f.verifyCallback(req.body);
     console.log(signStatus);
