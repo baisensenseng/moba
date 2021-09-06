@@ -74,7 +74,7 @@
         </div>
         <!-- <div> -->
         <a-modal class="qrcode-content" v-model="isPayqrcode" title="支付二维码" @ok="handleOk">
-          <div class="code text-center" id="qrcode" ref="qrcode"></div>
+          <div class="code text-center" id="qrcode" ref="qrcode" v-if="isPayqrcode" @click="handleQrcode"></div>
         </a-modal>
         <!-- </div> -->
       </div>
@@ -196,6 +196,9 @@ export default {
       console.log(e);
       this.isPayqrcode = false;
       this.$refs.qrcode.innerHTML = '';
+    },
+    handleQrcode() {
+      window.open(`${this.qrcode}`)
     },
   },
 }
