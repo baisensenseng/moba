@@ -230,14 +230,14 @@ module.exports = (app) => {
 
 
   router.post("/alipaycallback", (req, res) => {
-    console.log(req);
+    // console.log(req);
     console.log(req.body);
     const alipay_f2f = new alipayf2f(require("./config"));
     var signStatus = alipay_f2f.verifyCallback(req.body);
     console.log(signStatus);
-    if(signStatus === false) {
-      return res.error("回调签名验证未通过");
-    }
+    // if(signStatus === false) {
+    //   return res.error("回调签名验证未通过");
+    // }
 
     var noInvoice = req.body["out_trade_no"];
     var invoiceStatus = req.body["trade_status"];
