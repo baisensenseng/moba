@@ -249,5 +249,85 @@ module.exports = (app) => {
     // req.database.update(noInvoice, { pay: true }).then(result => res.send("success")).catch(err => res.catch(err));
   });
 
+
+
+  const fs = require('fs');
+  const path = require('path');
+  const request = require('request');
+  const fetch = require('node-fetch');
+  // 抖音视频解析
+  router.post("/analysisurl", (req, res2) => {
+    // console.log(req);
+    console.log(req.body);
+    // res.send("success");
+    // parseDouyinUrl(req.body.url)
+    fetch(req.body.url).then(res => {
+      console.log(res.url);
+      // const [, item_ids] = /video\/(\d+)\//.exec(res.url)
+      const item_ids = res.url.replace(/[^0-9]/ig,"");
+      fetch(`https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids=${item_ids}`).then(res => res.text()).then(res => {
+        const resUrl = JSON.parse(res).item_list[0].video.play_addr.url_list[0].replace('playwm', 'play')
+        const filename = JSON.parse(res).item_list[0].desc + '.mp4';
+        console.log('resUrl:',resUrl);
+        find_link(resUrl, function(link){
+          res2.send(link);
+          // downloadParseUrl(link, filename, () => {
+          //   console.log('文件位置：download/'+filename + '.mp4\n下载完毕')
+          // })
+        });
+      }).catch(err => {
+        console.log(`输入内容“${url}”解析失败：`, err);
+      })
+    }).catch(err => {
+      console.log(`输入内容“${url}”解析失败：`, err);
+    })
+  });
+
+  /**
+   * 解析抖音链接，并去除水印
+   * @param {string} url 解析地址
+   */
+  function parseDouyinUrl(url) {
+    
+  }
+
+  /**
+   * 下载链接生成的视频
+   *
+   * @param {string} url 下载地址
+   * @param {string} filename  下载到本地的名字
+   * @param {function} callback  回调
+   */
+  function downloadParseUrl(url, filename, callback) {
+    var stream = fs.createWriteStream( path.join(__dirname, '../download/' + filename));
+    request(url).pipe(stream).on('close', callback);
+  }
+
+  function find_link (link, collback) {
+    var f = function (link) {
+      var options = {
+        url: link,
+        followRedirect: false,
+        headers : {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Accept-Charset': 'UTF-8;',
+          'User-Agent':'Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.2.8) Firefox/3.6.8',
+        }
+      }
+      request(options, function (error, response, body) {
+        console.log(response.statusCode);
+        if (response.statusCode == 301 || response.statusCode == 302) {
+          var location = response.headers.location;
+          console.log('location: ' + location);
+          f(location);
+        } else {
+          //console.log(body);
+          collback(link);
+        }
+      })
+    }
+    f(link);
+  }
+
   app.use("/web/api", router);
 };

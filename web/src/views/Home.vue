@@ -80,6 +80,14 @@
       </div>
     </m-crad>
 
+    <m-crad icon="caidan1" title="抖音无水印视频解析">
+      <div class="components-input-demo-presuffix">
+        <a-input v-model="analysisurl.url" />
+        <div class="text-center mt-3">
+          <a-button class="" type="primary" @click="analysis">解析</a-button>
+        </div>
+      </div>
+    </m-crad>
   </div>
 </template>
 <script>
@@ -110,6 +118,9 @@ export default {
       },
       isPayqrcode:false,
       qrcode:'',
+      analysisurl:{
+        url:''
+      },
     }
   },
   computed: {
@@ -206,6 +217,13 @@ export default {
     },
     handleQrcode() {
       window.open(`${this.qrcode}`)
+    },
+
+    async analysis(){
+      console.log(this.analysisurl);
+      const res = await this.$http.post('analysisurl', this.analysisurl)
+      console.log(res);
+      this.analysisurl.url = res.data
     },
   },
 }
