@@ -261,7 +261,9 @@ module.exports = (app) => {
     console.log(req.body);
     // res.send("success");
     // parseDouyinUrl(req.body.url)
-    fetch(req.body.url).then(res => {
+    var reg= /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
+    const matchurl = req.body.url.match(reg);
+    fetch(matchurl).then(res => {
       console.log(res.url);
       // const [, item_ids] = /video\/(\d+)\//.exec(res.url)
       const item_ids = res.url.replace(/[^0-9]/ig,"");
