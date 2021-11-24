@@ -49,6 +49,11 @@ module.exports = app =>{
     res.send(user);
   });
 
+  // 注册
+  app.get('/admin1/api1/news1', async (req, res) => {
+    console.log(req);
+  });
+
   // 切换页面调用token验证接口
   app.post('/admin/api/checktoken', async (req, res) => {
     const token = String(req.headers.authorization || '').split(' ').pop()

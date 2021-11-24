@@ -51,7 +51,9 @@ module.exports = (app) => {
     await Article.insertMany(newsList);
     res.send(newsList);
   });
-
+  router.get("/news1", async (req, res) => {
+    console.log(req);
+  })
   // 新闻列表接口
   router.get("/news/list", async (req, res) => {
     const parent = await Category.findOne({
@@ -257,15 +259,10 @@ module.exports = (app) => {
   const fetch = require('node-fetch');
   // 抖音视频解析
   router.post("/analysisurl", (req, res2) => {
-    // console.log(req);
-    console.log(req.body);
-    // res.send("success");
-    // parseDouyinUrl(req.body.url)
     var reg= /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
     const matchurl = req.body.url.match(reg);
     fetch(matchurl).then(res => {
       console.log(res.url);
-      // const [, item_ids] = /video\/(\d+)\//.exec(res.url)
       const item_ids = res.url.replace(/[^0-9]/ig,"");
       fetch(`https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids=${item_ids}`).then(res => res.text()).then(res => {
         const resUrl = JSON.parse(res).item_list[0].video.play_addr.url_list[0].replace('playwm', 'play')
@@ -273,9 +270,6 @@ module.exports = (app) => {
         console.log('resUrl:',resUrl);
         find_link(resUrl, function(link){
           res2.send(link);
-          // downloadParseUrl(link, filename, () => {
-          //   console.log('文件位置：download/'+filename + '.mp4\n下载完毕')
-          // })
         });
       }).catch(err => {
         console.log(`输入内容“${url}”解析失败：`, err);

@@ -224,6 +224,7 @@ export default {
       const res = await this.$http.post('analysisurl', this.analysisurl)
       console.log(res);
       this.analysisurl.url = res.data
+      window.open(`${res.data}`)
     },
   },
 }
