@@ -266,7 +266,7 @@ module.exports = (app) => {
     console.log(req.body);
     console.log(req.body.url);
     console.log(req.body.url.indexOf("ixigua"));
-    if (req.body.url.indexOf("ixigua") !== -1) {
+    if (req.body.url.indexOf("ixigua") == -1) {
       console.log('dy');
       var reg= /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
       const matchurl = req.body.url.match(reg);
