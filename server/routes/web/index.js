@@ -263,6 +263,7 @@ module.exports = (app) => {
 
   // 抖音视频解析
   router.post("/analysisurl", (req, res2) => {
+    console.log(req.body);
     if (req.body.url.indexOf("ixigua") !== -1) {
       console.log('dy');
       var reg= /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
