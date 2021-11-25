@@ -156,7 +156,7 @@ export default {
   },
   mounted() {
     console.log('alipay');
-    console.log('xigua');
+    console.log('xigua111');
     this.swiper.slideTo(3, 1000, false)
   },
   methods: {
