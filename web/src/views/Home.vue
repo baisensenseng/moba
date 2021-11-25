@@ -86,6 +86,11 @@
         <div class="text-center mt-3">
           <a-button class="" type="primary" @click="analysis">解析</a-button>
         </div>
+        <div>dy视频链接：{{nodedata.dyurl}}</div>
+        <div>视频链接：{{nodedata.url}}</div>
+        <div>音频链接：{{nodedata.music}}</div>
+        <!-- <div>{{analysisurl.dyurl}}</div>
+        <div>{{analysisurl.dyurl}}</div> -->
       </div>
     </m-crad>
   </div>
@@ -119,7 +124,18 @@ export default {
       isPayqrcode:false,
       qrcode:'',
       analysisurl:{
-        url:''
+        dyurl:'',
+        url:'',
+        cover:'',
+        music:'',
+        title:'',
+      },
+      nodedata:{
+        dyurl:'',
+        url:'',
+        cover:'',
+        music:'',
+        title:'',
       },
     }
   },
@@ -223,8 +239,13 @@ export default {
       console.log(this.analysisurl);
       const res = await this.$http.post('analysisurl', this.analysisurl)
       console.log(res);
-      this.analysisurl.url = res.data
-      window.open(`${res.data}`)
+      if (res.data.code) {
+        this.nodedata = res.data
+      } else {
+        console.log(res.data);
+        this.nodedata.dyurl = res.data
+        // this.analysisurl.dyurl = res.data
+      }
     },
   },
 }

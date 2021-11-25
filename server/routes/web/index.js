@@ -257,27 +257,57 @@ module.exports = (app) => {
   const path = require('path');
   const request = require('request');
   const fetch = require('node-fetch');
+  // 引入相关模块
+  var http = require('http')
+  var querystring = require('querystring')
+
   // 抖音视频解析
   router.post("/analysisurl", (req, res2) => {
-    var reg= /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
-    const matchurl = req.body.url.match(reg);
-    fetch(matchurl).then(res => {
-      console.log(res.url);
-      const item_ids = res.url.replace(/[^0-9]/ig,"");
-      fetch(`https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids=${item_ids}`).then(res => res.text()).then(res => {
-        const resUrl = JSON.parse(res).item_list[0].video.play_addr.url_list[0].replace('playwm', 'play')
-        const filename = JSON.parse(res).item_list[0].desc + '.mp4';
-        console.log('resUrl:',resUrl);
-        find_link(resUrl, function(link){
-          res2.send(link);
-        });
+    if (req.body.url.indexOf("ixigua") === -1) {
+      console.log('dy');
+      var reg= /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
+      const matchurl = req.body.url.match(reg);
+      fetch(matchurl).then(res => {
+        console.log(res.url);
+        const item_ids = res.url.replace(/[^0-9]/ig,"");
+        fetch(`https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids=${item_ids}`).then(res => res.text()).then(res => {
+          const resUrl = JSON.parse(res).item_list[0].video.play_addr.url_list[0].replace('playwm', 'play')
+          const filename = JSON.parse(res).item_list[0].desc + '.mp4';
+          console.log('resUrl:',resUrl);
+          find_link(resUrl, function(link){
+            res2.send(link);
+          });
+        }).catch(err => {
+          console.log(`输入内容“${url}”解析失败：`, err);
+        })
       }).catch(err => {
         console.log(`输入内容“${url}”解析失败：`, err);
       })
-    }).catch(err => {
-      console.log(`输入内容“${url}”解析失败：`, err);
-    })
+    } else {
+      console.log('xigua');
+      console.log(req.body);
+      const data = req.body.url;
+      console.log(data);
+      var request = require('request');
+      request(`https://tenapi.cn/video/?url=${data}`, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          console.log(body) // Show the HTML for the baidu homepage.
+          res2.send(body);
+        }
+      })
+
+    }
+    
   });
+
+
+
+
+  
+
+
+
+
 
   /**
    * 解析抖音链接，并去除水印
