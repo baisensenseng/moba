@@ -157,9 +157,6 @@ export default {
   mounted() {
     console.log('alipay');
     console.log('xigua');
-    // current swiper instance
-    // 然后你就可以使用当前上下文内的swiper对象去做你想做的事了
-    console.log('this is current swiper instance object', this.swiper)
     this.swiper.slideTo(3, 1000, false)
   },
   methods: {
@@ -173,15 +170,11 @@ export default {
     },
     async fetchVideo(){
       const res = await this.$http.get('videos/list');
-      console.log(res);
       this.videoList = res.data;
     },
     async alipay(){
-      // console.log(this.alipayinfo);
       // var alipay_f2f = new alipayf2f(require("./config"));
-      // console.log(alipay_f2f);
       // alipay_f2f.createQRPay(this.alipayinfo).then(result => {
-      //   console.log(result) // 支付宝返回的结果
       //   if (result.code === '10000') {
       //     this.qrcode = result.qr_code;
       //     this.payOrder()
@@ -193,7 +186,6 @@ export default {
       // }).catch(error => console.error(error));
 
       const res = await this.$http.post('createInvoice', this.alipayinfo)
-      console.log(res.data);
       const result = res.data
       if (result.code === '10000') {
         this.qrcode = result.qr_code;
@@ -202,7 +194,6 @@ export default {
     },
     // 展示二维码
     payOrder () {
-      console.log('payOrder');
       this.isPayqrcode = true
       // 二维码内容,一般是由后台返回的跳转链接,这里是写死的一个链接
       // this.qrcode = ''
@@ -221,7 +212,6 @@ export default {
         // background: '#f0f'
         // foreground: '#ff0'
       })
-      // console.log(this.qrcode)
     },
     // 关闭弹框,清除已经生成的二维码
     closeCode () {
@@ -237,13 +227,10 @@ export default {
     },
 
     async analysis(){
-      console.log(this.analysisurl);
       const res = await this.$http.post('analysisurl', this.analysisurl)
-      console.log(res);
       if (res.data.code) {
         this.nodedata = res.data
       } else {
-        console.log(res.data);
         this.nodedata.dyurl = res.data
         // this.analysisurl.dyurl = res.data
       }
