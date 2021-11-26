@@ -289,7 +289,9 @@ module.exports = (app) => {
     } else {
       console.log('xigua');
       console.log(req.body);
-      const data = req.body.url;
+      var reg= /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
+      // const matchurl = req.body.url.match(reg);
+      const data = req.body.url.match(reg);
       console.log(data);
       var request = require('request');
       request(`https://tenapi.cn/video/?url=${data}`, function (error, response, body) {

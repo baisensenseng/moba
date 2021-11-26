@@ -10,7 +10,7 @@
       <div class="text"><strong>目前支持</strong> 抖音/皮皮虾/火山/微视/微博/绿洲/最右/轻视频/instagram/哔哩哔哩/快手/全民小视频/皮皮搞笑/全民k歌/巴塞电影/陌陌/Before避风/开眼/Vue Vlog/小咖秀/西瓜视频/逗拍/虎牙/6间房/新片场/Acfun/美拍</div>
       <div class="text"><strong>温馨提示</strong> 粘贴视频地址时无需删除文案 但如果视频链接正确但解析失败请删掉文案后重试</div>
       <el-divider></el-divider>
-      <div class="main-box">
+      <div class="main-box" v-loading="loading">
         <el-input placeholder="请输入内容" v-model="model.url" class="input-with-select">
           <el-select v-model="model.select" slot="prepend" placeholder="请选择">
             <el-option label="视频" value="1"></el-option>
@@ -49,6 +49,7 @@ export default {
         url:'',
         music:'',
       },
+      loading: false,
     }
   },
   created() {
@@ -56,9 +57,16 @@ export default {
   },
   methods: {
     async analysis(){
+      this.loading = true;
       const res = await this.$http.post('analysisurlapi', this.model)
       if (res.data.code === 200) {
         this.backdata = res.data
+        this.loading = false;
+      } else {
+        this.$message({
+          message: `${res.data.msg}`,
+          type: 'warning'
+        });
       }
     },
   },
