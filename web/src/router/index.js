@@ -5,6 +5,7 @@ import Home from '../views/Home.vue'
 import Article from '../views/Article.vue'
 import Hero from '../views/Hero.vue'
 import Video from '../views/Video.vue'
+import Alysisvideo from '../views/Alysisvideo.vue'
 
 
 Vue.use(VueRouter)
@@ -20,6 +21,9 @@ const routes = [
   },
   {
     path:'/heroes/:id', name: 'hero', component: Hero, props: true
+  },
+  {
+    path:'/analysisvideo', name: 'analysisvideo', component: Alysisvideo, props: true
   },
   {
     path:'/videos/:id', name: 'video', component: Video, props: true

@@ -304,11 +304,16 @@ module.exports = (app) => {
   });
 
 
-
-
-  
-
-
+  // 抖音视频解析第三方接口
+  router.post("/analysisurlapi", (req, res) => {
+    const type = req.body.select === '1' ? 'video' :'images';
+    request(`https://tenapi.cn/${type}/?url=${req.body.url}`, function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        console.log(body) // Show the HTML for the baidu homepage.
+        res.send(body);
+      }
+    })
+  });
 
 
 
