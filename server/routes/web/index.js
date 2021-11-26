@@ -294,7 +294,7 @@ module.exports = (app) => {
       const data = req.body.url.match(reg);
       console.log(data);
       var request = require('request');
-      request(`https://tenapi.cn/video/?url=${data}`, function (error, response, body) {
+      request(`https://tenapi.cn/video/?url=${data[0]}`, function (error, response, body) {
         if (!error && response.statusCode == 200) {
           console.log(body) // Show the HTML for the baidu homepage.
           res2.send(body);
