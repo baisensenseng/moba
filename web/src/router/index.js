@@ -23,7 +23,7 @@ const routes = [
     path:'/heroes/:id', name: 'hero', component: Hero, props: true
   },
   {
-    path:'/analysisvideo', name: 'analysisvideo', component: Alysisvideo, props: true
+    path:'/analysisvideo', name: 'analysisvideo', component: Alysisvideo, props: true, meta: { title: '洪专属页面' }
   },
   {
     path:'/videos/:id', name: 'video', component: Video, props: true
