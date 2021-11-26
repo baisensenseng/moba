@@ -58,6 +58,11 @@ export default {
   methods: {
     async analysis(){
       this.loading = true;
+      var reg= /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
+      const url = this.model.url.match(reg);
+      this.model.url = url[0];
+      console.log(this.model);
+      // this.model.url = 
       const res = await this.$http.post('analysisurlapi', this.model)
       if (res.data.code === 200) {
         this.backdata = res.data
