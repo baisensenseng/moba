@@ -19,14 +19,22 @@
           <el-button slot="append" icon="el-icon-search" @click="analysis"></el-button>
         </el-input>
       </div>
-      <div v-if="backdata.code === 200" class="back-box">
+      <div v-if="backdata.code === 200 && !backdata.images" class="back-box">
         <div class="back-box-title"><strong>{{backdata.title}}</strong></div>
         <div class="back-box-main">
           <el-button><a :href="backdata.cover" target="_blank">下载封面</a></el-button>
           <el-button><a :href="backdata.url" target="_blank">下载视频</a></el-button>
           <el-button><a :href="backdata.music" target="_blank">下载音频</a></el-button>
         </div>
-        
+      </div>
+      <div v-if="backdata.code === 200 && backdata.images" class="back-box">
+        <el-image 
+          style="width: 100px; height: 100px"
+          v-for="item in backdata.images"
+          :key="item"
+          :src="item" 
+          :preview-src-list="backdata.images">
+        </el-image>
       </div>
     </el-card>
   </div>
@@ -92,7 +100,7 @@ export default {
       position: absolute;
       margin: 8% auto 0;
       width: 750px;
-      height: 460px;
+      height: 520px;
       top: 0;
       left: 0;
       bottom: 0;
