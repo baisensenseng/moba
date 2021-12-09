@@ -9,6 +9,7 @@ app.use(require('cors')())
 app.use(express.json())
 app.use('/', express.static(__dirname + '/web'))
 app.use('/admin', express.static(__dirname + '/admin'))
+app.use('/unlockmusic', express.static(__dirname + '/unlockmusic'))
 app.use('/uploads', express.static(__dirname + '/uploads'))
 
 require('./plugins/db')(app) // 引用数据库
