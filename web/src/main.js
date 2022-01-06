@@ -32,6 +32,13 @@ import Antd from 'ant-design-vue'// 引入Ant Design Vue组件
 import 'ant-design-vue/dist/antd.css' // 引入Ant Design Vue样式
 Vue.use(Antd) //挂载到vue中
 
+import 'xe-utils'
+import VXETable from 'vxe-table'
+import 'vxe-table/lib/style.css'
+
+Vue.use(VXETable)
+console.log(VXETable);
+
 router.beforeEach((to, from, next) => {
   /* 路由发生变化修改页面title */
   if (to.meta.title) {

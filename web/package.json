@@ -17,7 +17,9 @@
     "node-sass": "^6.0.1",
     "qrcodejs2": "0.0.2",
     "vue": "^2.6.11",
-    "vue-router": "^3.2.0"
+    "vue-router": "^3.2.0",
+    "vxe-table": "^3.4.12",
+    "xe-utils": "^3.5.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
