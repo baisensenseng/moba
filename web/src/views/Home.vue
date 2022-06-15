@@ -27,7 +27,7 @@
       </div>
     </div>
     <!-- end nav icon -->
-    <m-list-card icon="caidan1" title="新闻资讯" :categories="newsCats">
+    <m-list-card icon="caidan1" title="新闻资讯jenkins" :categories="newsCats">
       <template #items="{category}">
         <router-link tag="div" :to="`/articles/${news._id}`" class="py-2 fs-lg d-flex" v-for="(news, index) in category.newsList" :key="index">
           <span class="text-info">{{news.categoryName}}</span>
