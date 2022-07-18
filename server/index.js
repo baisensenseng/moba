@@ -7,7 +7,7 @@ app.set('secret', 'asdasd')
 
 app.use(require('cors')())
 app.use(express.json())
-// app.use( express.urlencoded() );
+app.use(express.urlencoded())
 app.use('/', express.static(__dirname + '/web'))
 app.use('/admin', express.static(__dirname + '/admin'))
 app.use('/unlockmusic', express.static(__dirname + '/unlockmusic'))
