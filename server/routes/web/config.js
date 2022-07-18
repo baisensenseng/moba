@@ -23,7 +23,7 @@ module.exports = {
 
 	/* 支付宝公钥 如果为注释掉会使用沙盒公钥 请勿忘记 -----BEGIN PUBLIC KEY----- 与 -----END PUBLIC KEY----- */
 	"alipayPublicKey": "-----BEGIN PUBLIC KEY-----\n" +
-                     "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtAVMWOBZmIxZnS+9AEYeTbRxO6G6Z2iICvReRhYRxWFUeFLzNrYfLoL8+l2ylu7kQslQM/YqJsv2C5NIulTvK7Cio9q3iWIVF6as7U6Wj/khOFeO9lY/m3NkDLXsCR9XMktNqtHK6SUjjIUeiHeRaKjx6PG3ex2BySv5dVkSF24jcAIz7B7pCdb6j7H5thpkuw2nTTC6+Lo/nOdst9kIUmc6By0TuzrsrkMmUA0obqqe3rQZ6BvYm3BJKbpCV8Biuvc4mfvJ2cpDEGvTPClOolD87TZzXemoyzKL763umOv7GSvqTXKaILJIAqMpmnRSk6aGQWL8W36aSHRKnUfzawIDAQAB" +
+                     "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvlXcCpwJHutqXpEfhLKa7Nfm9vaQxXC+QEWFIZq/bLS//wklmyyTa0eRAg0o85XHv+kkS56U6eozZGZJkD7zfBcfR0OQGHQJrzc/EUHvU4GUuK1Fg63tVC6rHv+5YfsPsNEXsavC3WH4iI5JsvtMxrChqQ+VttCGf1x4fiPc49dUEiLu+5Sk2B+OdZ/jZOwDaILb2eOsDQtty9JLbXOH6V9tcdQAZ8Um268M08xkpyJ+e04+s0Tv79fnsFOrgfGL70g1f8SzOStKGie74UtBI2DIGWRuuQu+sLYyMqTLMxzwj/MrHJNxNpGid73Ia3Xpf/FC5WoFoNC9D8OQaU5nhwIDAQAB" +
                      "\n-----END PUBLIC KEY-----",
 	
 	/* 支付宝支付网关 如果为注释掉会使用沙盒网关 */
