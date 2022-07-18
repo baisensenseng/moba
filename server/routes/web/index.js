@@ -232,7 +232,10 @@ module.exports = (app) => {
 
 
   router.post("/alipaycallback", (req, res) => {
-    
+    res.setHeader('Access-Control-Allow-Origin','*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST'); 
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization'); 
+    res.setHeader("Content-Type", "application/x-www-form-urlencoded");
     console.log(req.body,'req.body');
     // console.log(res,'resresresresresresresresresresresresresresresresresresresresresresres');
     const alipay_f2f = new alipayf2f(require("./config"));
