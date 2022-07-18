@@ -251,8 +251,8 @@ module.exports = (app) => {
     // req.database.update(noInvoice, { pay: true }).then(result => res.send("success")).catch(err => res.catch(err));
   });
 
-  router.post("/checkInvoiceStatus", (req, res) => {
-    console.log(req,'checkInvoiceStatus_req');
+  router.get("/checkInvoiceStatus", (req, res) => {
+    console.log(req.params);
     // alipay_f2f.checkInvoiceStatus("2333333").then(result => {
     //   console.log(result);
     // }).catch(error => { });
