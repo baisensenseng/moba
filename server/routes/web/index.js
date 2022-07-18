@@ -242,7 +242,8 @@ module.exports = (app) => {
 
     var noInvoice = req.body["out_trade_no"];
     var invoiceStatus = req.body["trade_status"];
-
+    console.log(noInvoice);
+    console.log(invoiceStatus);
     if(invoiceStatus !== "TRADE_SUCCESS") {
       return res.send("success");
     }
