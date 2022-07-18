@@ -252,7 +252,9 @@ module.exports = (app) => {
   });
 
   router.get("/checkInvoiceStatus", (req, res) => {
+    console.log(req);
     console.log(req.params);
+    res.send("success");
     // alipay_f2f.checkInvoiceStatus("2333333").then(result => {
     //   console.log(result);
     // }).catch(error => { });
