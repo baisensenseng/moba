@@ -233,7 +233,8 @@ module.exports = (app) => {
 
   router.post("/alipaycallback", (req, res) => {
     console.log(req,'reqreqreqreqreqreqreqreqreqreqreqreqreqreqreqreqreqreqreqreqreqreqreq');
-    console.log(res,'resresresresresresresresresresresresresresresresresresresresresresres');
+    console.log(req.body,'req.bodyreq.bodyreq.bodyreq.bodyreq.bodyreq.bodyreq.bodyreq.body');
+    // console.log(res,'resresresresresresresresresresresresresresresresresresresresresresres');
     const alipay_f2f = new alipayf2f(require("./config"));
     console.log(alipay_f2f,'alipay_f2falipay_f2falipay_f2falipay_f2falipay_f2falipay_f2falipay_f2falipay_f2falipay_f2falipay_f2f');
     var signStatus = alipay_f2f.verifyCallback(req.body);
