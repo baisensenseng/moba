@@ -255,6 +255,7 @@ module.exports = (app) => {
     console.log(req);
     console.log(req.params);
     console.log(req.query);
+    console.log(req.query.test);
     console.log(req.params.test);
     res.send("success");
     // alipay_f2f.checkInvoiceStatus("2333333").then(result => {
