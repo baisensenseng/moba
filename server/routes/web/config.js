@@ -5,7 +5,7 @@ module.exports = {
 	/* 以下信息可以在https://openhome.alipay.com/platform/appManage.htm查到, 不过merchantPrivateKey需要您自己生成 */
 
 	/* 应用AppID */
-	"appid": 2021001163674818,
+	"appid": 2021001163674817,
 
 	/* 通知URL 接受支付宝异步通知需要用到  */
 	"notifyUrl": "http://moba.xrfclub.com/web/api/alipaycallback",
