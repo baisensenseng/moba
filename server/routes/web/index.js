@@ -254,7 +254,7 @@ module.exports = (app) => {
   router.get("/checkInvoiceStatus", (req, res) => {
     console.log(req.query);
     const alipay_f2f = new alipayf2f(require("./config"));
-    alipay_f2f.checkInvoiceStatus("2333333").then(result => {
+    alipay_f2f.checkInvoiceStatus(req.query.test).then(result => {
       console.log(result);
       res.send("success");
     }).catch(error => {
