@@ -213,7 +213,9 @@ export default {
         // background: '#f0f'
         // foreground: '#ff0'
       })
-      this.isPayqrcode = true
+      this.$nextTick(() => {
+        this.isPayqrcode = true
+      })
     },
     // 开始轮询
     async alipayPolling(){
