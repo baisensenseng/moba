@@ -189,7 +189,7 @@ export default {
       console.log(this.payResult.qr_code);
       if (this.payResult.code === '10000') {
         // this.qrcode = this.payResult.qr_code;
-        this.payOrder()
+        await this.payOrder()
       }
     },
     // 展示二维码
