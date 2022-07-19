@@ -186,8 +186,9 @@ export default {
       const res = await this.$http.post('alipay', this.alipayinfo)
       this.payResult = res.data
       console.log(this.payResult);
+      console.log(this.payResult.qr_code);
       if (this.payResult.code === '10000') {
-        this.qrcode = this.payResult.qr_code;
+        // this.qrcode = this.payResult.qr_code;
         this.payOrder()
       }
     },
@@ -207,7 +208,7 @@ export default {
       this.qr = new QRCode('qrcode', {
         width: 150,
         height: 150, // 高度
-        text: this.qrcode // 二维码内容
+        text: this.payResult.qr_code // 二维码内容
         // render: 'canvas' // 设置渲染方式（有两种方式 table和canvas，默认是canvas）
         // background: '#f0f'
         // foreground: '#ff0'
@@ -239,7 +240,7 @@ export default {
       this.$refs.qrcode.innerHTML = '';
     },
     handleQrcode() {
-      window.open(`${this.qrcode}`)
+      window.open(`${this.payResult.qr_code}`)
     },
 
     async analysis(){
