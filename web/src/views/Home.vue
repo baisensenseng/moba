@@ -199,13 +199,13 @@ export default {
       // 使用$nextTick确保数据渲染
       // this.$nextTick(() => {
         await this.crateQrcode()
-        this.isPayqrcode = true
+        
         await this.alipayPolling()
       // })
     },
     // 生成二维码
     async crateQrcode () {
-      this.qr = new QRCode('qrcode', {
+      this.qr = await new QRCode('qrcode', {
         width: 150,
         height: 150, // 高度
         text: this.payResult.qr_code // 二维码内容
@@ -213,6 +213,7 @@ export default {
         // background: '#f0f'
         // foreground: '#ff0'
       })
+      this.isPayqrcode = true
     },
     // 开始轮询
     async alipayPolling(){
