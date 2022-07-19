@@ -194,8 +194,9 @@ export default {
       // 二维码内容,一般是由后台返回的跳转链接,这里是写死的一个链接
       // this.qrcode = ''
       // 使用$nextTick确保数据渲染
+      this.isPayqrcode = true;
+      console.log(this.isPayqrcode);
       this.$nextTick(() => {
-        this.isPayqrcode = true
         this.crateQrcode()
       })
     },
