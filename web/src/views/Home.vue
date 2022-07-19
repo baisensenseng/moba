@@ -73,8 +73,8 @@
           </a-button>
         </div>
         <!-- <div> -->
-        <a-modal class="qrcode-content" v-model="isPayqrcode" title="支付二维码" @ok="handleOk">
-          <div class="code text-center" id="qrcode" ref="qrcode" v-if="isPayqrcode" @click="handleQrcode"></div>
+        <a-modal class="qrcode-content" v-if="isPayqrcode" title="支付二维码" @ok="handleOk">
+          <div class="code text-center" id="qrcode" ref="qrcode"  @click="handleQrcode"></div>
         </a-modal>
         <!-- </div> -->
       </div>
@@ -194,12 +194,12 @@ export default {
     },
     // 展示二维码
     async payOrder () {
-      this.isPayqrcode = true
       // 二维码内容,一般是由后台返回的跳转链接,这里是写死的一个链接
       // this.qrcode = ''
       // 使用$nextTick确保数据渲染
       // this.$nextTick(() => {
         await this.crateQrcode()
+        this.isPayqrcode = true
         await this.alipayPolling()
       // })
     },
