@@ -189,6 +189,8 @@ export default {
       console.log(this.payResult.qr_code);
       if (this.payResult.code === '10000') {
         // this.qrcode = this.payResult.qr_code;
+        console.log(this.payResult);
+        console.log(this.payResult.qr_code);
         await this.payOrder()
       }
     },
@@ -198,6 +200,7 @@ export default {
       // this.qrcode = ''
       // 使用$nextTick确保数据渲染
       // this.$nextTick(() => {
+        this.isPayqrcode = true
         await this.crateQrcode()
         
         await this.alipayPolling()
@@ -212,9 +215,6 @@ export default {
         // render: 'canvas' // 设置渲染方式（有两种方式 table和canvas，默认是canvas）
         // background: '#f0f'
         // foreground: '#ff0'
-      })
-      this.$nextTick(() => {
-        this.isPayqrcode = true
       })
     },
     // 开始轮询
