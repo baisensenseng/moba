@@ -68,7 +68,7 @@
         <a-input prefix="￥" suffix="RMB" v-model.number="alipayinfo.totalAmount" />
         <a-input prefix="" suffix="tradeNo" placeholder="必填，随便填不能重复" v-model.number="alipayinfo.tradeNo" />
         <div class="text-center mt-3">
-          <a-button type="primary" @click="alipay">
+          <a-button type="primary" @click="aliPay">
             支付
           </a-button>
         </div>
@@ -182,6 +182,7 @@ export default {
       this.videoList = res.data;
     },
     async aliPay(){
+      console.log('alipay');
       const res = await this.$http.post('alipay', this.alipayinfo)
       this.payResult = res.data
       console.log(this.payResult);
