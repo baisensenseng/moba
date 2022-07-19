@@ -185,12 +185,7 @@ export default {
       console.log('alipay');
       const res = await this.$http.post('alipay', this.alipayinfo)
       this.payResult = res.data
-      console.log(this.payResult);
-      console.log(this.payResult.qr_code);
       if (this.payResult.code === '10000') {
-        // this.qrcode = this.payResult.qr_code;
-        console.log(this.payResult);
-        console.log(this.payResult.qr_code);
         await this.payOrder()
       }
     },
@@ -199,12 +194,10 @@ export default {
       // 二维码内容,一般是由后台返回的跳转链接,这里是写死的一个链接
       // this.qrcode = ''
       // 使用$nextTick确保数据渲染
-      // this.$nextTick(() => {
+      this.$nextTick(() => {
         this.isPayqrcode = true
-        await this.crateQrcode()
-        
-        await this.alipayPolling()
-      // })
+        this.crateQrcode()
+      })
     },
     // 生成二维码
     async crateQrcode () {
@@ -216,6 +209,7 @@ export default {
         // background: '#f0f'
         // foreground: '#ff0'
       })
+      await this.alipayPolling()
     },
     // 开始轮询
     async alipayPolling(){
