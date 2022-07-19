@@ -131,6 +131,7 @@ export default {
       },
       isPayqrcode:false,
       qrcode:'',
+      payResult: {},
       analysisurl:{
         dyurl:'',
         url:'',
@@ -180,38 +181,28 @@ export default {
       const res = await this.$http.get('videos/list');
       this.videoList = res.data;
     },
-    async alipay(){
-      // var alipay_f2f = new alipayf2f(require("./config"));
-      // alipay_f2f.createQRPay(this.alipayinfo).then(result => {
-      //   if (result.code === '10000') {
-      //     this.qrcode = result.qr_code;
-      //     this.payOrder()
-      //   }
-      //   // if (result.alipay_trade_precreate_response.code === '10000') {
-      //   //   this.qrcode = result.alipay_trade_precreate_response.qr_code;
-      //   //   this.payOrder()
-      //   // }
-      // }).catch(error => console.error(error));
-
-      const res = await this.$http.post('createInvoice', this.alipayinfo)
-      const result = res.data
-      if (result.code === '10000') {
-        this.qrcode = result.qr_code;
+    async aliPay(){
+      const res = await this.$http.post('alipay', this.alipayinfo)
+      this.payResult = res.data
+      console.log(this.payResult);
+      if (this.payResult.code === '10000') {
+        this.qrcode = this.payResult.qr_code;
         this.payOrder()
       }
     },
     // 展示二维码
-    payOrder () {
+    async payOrder () {
       this.isPayqrcode = true
       // 二维码内容,一般是由后台返回的跳转链接,这里是写死的一个链接
       // this.qrcode = ''
       // 使用$nextTick确保数据渲染
-      this.$nextTick(() => {
-        this.crateQrcode()
-      })
+      // this.$nextTick(() => {
+        await this.crateQrcode()
+        await this.alipayPolling()
+      // })
     },
     // 生成二维码
-    crateQrcode () {
+    async crateQrcode () {
       this.qr = new QRCode('qrcode', {
         width: 150,
         height: 150, // 高度
@@ -220,6 +211,22 @@ export default {
         // background: '#f0f'
         // foreground: '#ff0'
       })
+    },
+    // 开始轮询
+    async alipayPolling(){
+      // 二维码生成接口
+      this.intervalwx = window.setInterval(()=>{
+        setTimeout(this.checkPay(),0)
+      },1000);
+    },
+    async checkPay(){
+      //调取支付状态的接口，支付成功返回200
+      const res = await this.$http.post('checkPay', this.alipayinfo)
+      const that = this;
+      if (res.data.code == 200) {
+        clearInterval(that.intervalwx)
+        that.intervalwx = null
+      }
     },
     // 关闭弹框,清除已经生成的二维码
     closeCode () {

@@ -190,7 +190,7 @@ module.exports = (app) => {
   // 支付模块
   // const alipay_f2f = require('alipay-ftof')
   const alipayf2f = require('alipay-ftof')
-  router.post("/createInvoice", (req, res) => {
+  router.post("/alipay", (req, res) => {
     console.log(req.body);
 
     const alipay_f2f = new alipayf2f(require("./config"));
@@ -230,7 +230,7 @@ module.exports = (app) => {
     });
   });
 
-
+  // 支付完成回调
   router.post("/alipaycallback", (req, res) => {
     console.log(req.body,'req.body');
     const alipay_f2f = new alipayf2f(require("./config"));
@@ -251,6 +251,13 @@ module.exports = (app) => {
     // req.database.update(noInvoice, { pay: true }).then(result => res.send("success")).catch(err => res.catch(err));
   });
 
+  // 支付过程的轮询
+  router.post("/checkPay", (req, res) => {
+    console.log(req.body,'req.body');
+    res.send("success");
+  });
+
+  // 使用商户订单号查询订单状况
   router.get("/checkInvoiceStatus", (req, res) => {
     console.log(req.query);
     const alipay_f2f = new alipayf2f(require("./config"));
