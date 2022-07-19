@@ -73,7 +73,7 @@
           </a-button>
         </div>
         <!-- <div> -->
-        <a-modal class="qrcode-content" v-if="isPayqrcode" title="支付二维码" @ok="handleOk">
+        <a-modal class="qrcode-content" v-model="isPayqrcode" title="支付二维码" @ok="handleOk">
           <div class="code text-center" id="qrcode" ref="qrcode"  @click="handleQrcode"></div>
         </a-modal>
         <!-- </div> -->
